@@ -5,7 +5,6 @@ import mysql.connector as mysql
 from datetime import datetime
 import pandas as pd
 
-
 con = mysql.connect(host="localhost", user='degelo', password='Casasbahia-1', database='projetobd')
 
 # IMPLEMENTADA
@@ -40,9 +39,6 @@ def tela_login(janela):
     criar_cadastro.place(x=xi,y=ybase+280)
     botao_criar_cadastro = Button(janela, text='Cadastrar', font=font1, fg="#00b56e", bg="white", command= lambda: tela_criar_cadastro(janela, 0))
     botao_criar_cadastro.place(x=xi,y=ybase+330)
-    
-    
-
 
     janela.mainloop()
 
@@ -407,13 +403,8 @@ def tela_lista_pedido_id(janela, pedido_id, valor_acesso):
     print("nome_cliente = ", nome_cliente)
                     
     cursor.execute("select ID_item from item where ID_pedido="+str(pedido_id)+";")
-    # print(pedido_id)
-    #cursor.execute("select ID_item from item where ID_pedido=10485;")
-    itens = cursor.fetchall()
-    # print("itens = ",itens)
 
-    # voltar = Button(janela, text='Voltar',command=lambda: tela_consulta(janela))
-    # voltar.place(x=250,y=500)
+    itens = cursor.fetchall()
 
     xi = 150
     yi = 100
@@ -425,15 +416,6 @@ def tela_lista_pedido_id(janela, pedido_id, valor_acesso):
     else:
         voltar = Button(janela, text='Voltar', fg="#00b56e", bg="white",font = ("Arial", 18),command=lambda: tela_login(janela))
         voltar.place(x=250,y=500)
-    # i = 0
-
-    # aux_b = str(base[i])
-    # aux_d = str(pedido_infs[i+1])
-    # auxlb = Label (janela, text = aux_b, font=("bold", 13))
-    # auxld = Label (janela, text = aux_d, font=("Arial", 13))
-    # auxlb.place(x = xi, y = yi)       
-    # auxld.place(x = xi + 150, y = yi)
-    # yi += 30   
 
     i = 0
 
@@ -495,16 +477,6 @@ def tela_lista_pedido_id(janela, pedido_id, valor_acesso):
         auxld.place(x = xi + 150, y = yi)
         yi += 30 
     
-
-
-    # for i in range(len(pedido_infs)): 
-    #     aux_b = str(base[i])
-    #     aux_d = str(pedido_infs[i+1])
-    #     auxlb = Label (janela, text = aux_b, font=("bold", 13))
-    #     auxld = Label (janela, text = aux_d, font=("Arial", 13))
-    #     auxlb.place(x = xi, y = yi)       
-    #     auxld.place(x = xi + 150, y = yi)
-    #     yi += 30   
     janela.mainloop()
 
 # IMPLEMENTADA
@@ -523,7 +495,6 @@ def tela_fazer_pedido(janela):
     cpf_field = Entry(font=fonte)
     cpf_field.place(x=xi,y=150)
     
-
     peca_opt = ["Camiseta", "Camisa", "Calca", "Bermuda", "Shorts", "Cueca", "Calcinha", "Meia", "Moletom", "Luvas", "Gorro"]
     peca = ttk.Combobox(janela, values = peca_opt, state='readonly', font = fonte)
     peca.set("Selecione o Item")
@@ -565,7 +536,6 @@ def adiciona_item(peca, lavagem, matriz):
     id_lavagem = cursor.fetchall()[0][0]
     print(id_lavagem)
     
-
     matriz.append([id_item, id_lavagem, "em processo"])
     print(matriz)
     MessageBox.showinfo("Alerta!", "Item Adicionado com Sucesso!") 
