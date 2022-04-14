@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
+from telas_funcionario import *
 
 
 

@@ -1,0 +1,13 @@
+File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.9_3.9.3312.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1892, in __call__
+    return self.func(*args)
+  File "c:\Users\DELL\Documents\POLI\2022\bd\Lavanderia\telas_funcionario.py", line 33, in <lambda>
+    botao_acessar = Button(janela, text='Acessar',command=lambda:acessa_tela_correspondente(e_insira_login, e_insira_senha, janela))
+  File "c:\Users\DELL\Documents\POLI\2022\bd\Lavanderia\telas_funcionario.py", line 83, in acessa_tela_correspondente
+    cursor.execute("select nome from Cliente where login="+str(login.get())+";")
+  File "C:\Users\DELL\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\mysql\connector\cursor.py", line 572, in execute
+    self._handle_result(self._connection.cmd_query(stmt))
+  File "C:\Users\DELL\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\mysql\connector\connection.py", line 920, in cmd_query
+    result = self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+  File "C:\Users\DELL\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\mysql\connector\connection.py", line 730, in _handle_result     
+    raise errors.get_exception(packet)
+mysql.connector.errors.ProgrammingError: 1054 (42S22): Unknown column 'pedro' in 'where clause'

@@ -80,7 +80,7 @@ def acessa_tela_correspondente(login, senha, janela):
             cursor.execute(comandoSQL)
             if_cliente = cursor.fetchall()[0][0]
             if if_cliente:
-                tela_de_cliente(janela)
+                tela_de_cliente(janela, str(login.get()))
             else:
                 tela_funcionario(janela)
         else:

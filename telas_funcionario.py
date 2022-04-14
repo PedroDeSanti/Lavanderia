@@ -5,12 +5,152 @@ import mysql.connector as mysql
 from datetime import datetime
 import pandas as pd
 
-from telas_cliente import *
 
-con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
+con = mysql.connect(host="localhost", user='degelo', password='Casasbahia-1', database='projetobd')
 
+# IMPLEMENTADA
+def tela_login(janela):
+
+    # global janela
+    janela.destroy()
+    janela = Tk()
+    janela.geometry("600x600+300+50")
+    janela.title("Tela de Login")
+    label = Label(janela, text='Tela de Login')
+    label.pack() 
+
+
+    insira_login = Label(janela, text='Insira seu Login', font=('bold',10))
+    insira_login.place(x=20,y=30)
+    e_insira_login = Entry()
+    e_insira_login.place(x=20, y=60)
+
+    insira_senha = Label(janela, text='Insira sua Senha', font=('bold',10))
+    insira_senha.place(x=20,y=90)
+    e_insira_senha = Entry()
+    e_insira_senha.place(x=20, y=120)
+
+    botao_acessar = Button(janela, text='Acessar',command=lambda:acessa_tela_correspondente(e_insira_login, e_insira_senha, janela))
+    botao_acessar.place(x=100,y=150)
+
+    criar_cadastro = Label(janela, text='Não tem conta? Crie uma', font=('bold',10))
+    criar_cadastro.place(x=20,y=300)
+    botao_criar_cadastro = Button(janela, text='AQUI',command= lambda: tela_criar_cadastro(janela, 0))
+    botao_criar_cadastro.place(x=180,y=300)
+    
+    # teixte = Button(janela, text='TEIXTE',command=lambda:tela_consulta(janela))
+    # teixte.place(x=100, y=500)
+    
+    # teixte2 = Button(janela, text='TEIXTE2',command=lambda:tela_de_listar_pedidos_cliente(janela))
+    # teixte2.place(x=150, y=550)
+    
+    # teixte3 = Button(janela, text='TEIXTE3',command=lambda:tela_lista_pedidos_cliente(janela, "Gabriel Zambelli"))
+    # teixte3.place(x=50, y=550)
+
+    # param = ["0123","Oswaldoz","10/10/12","17/10/12","Finalizado","6"]
+
+    # teixte4 = Button(janela, text='FUNCIONÁRIO DO MÊS',command=lambda:tela_lista_pedido_id(janela,param))
+    # teixte4.place(x=300, y=500)
+
+
+    janela.mainloop()
+
+# IMPLEMENTADA
+def acessa_tela_correspondente(login, senha, janela):
+    '''Verifica se o login e senha se encontram no BD, e, se sim, leva o usuário à correspondente (cliente ou funcionário)'''
+    # verifica se o login se encontra no BD
+    cursor = con.cursor()
+    comandoSQL = "select login, senha from cliente where login = '"+str(login.get())+"'"
+    comandoSQL += "union "
+    comandoSQL += "select login, senha from funcionario where login = '"+str(login.get())+"';"
+    cursor.execute(comandoSQL)
+    rows = cursor.fetchall()
+    check_senha = 0
+    if len(rows) == 0:
+        MessageBox.showinfo("Erro!", "Verifique seu login!")
+    else:
+        for row in rows:
+            if senha.get() == row[1]:
+                check_senha = 1
+                break
+        if check_senha == 1:
+            comandoSQL = "select exists(select * from cliente where login = '"+str(login.get())+"' and senha = '"+str(senha.get())+"');"
+            cursor.execute(comandoSQL)
+            if_cliente = cursor.fetchall()[0][0]
+            if if_cliente:
+                cursor.execute("select nome from Cliente where login='"+str(login.get())+"';")
+                nome_usuario = cursor.fetchall()[0]
+                tela_de_cliente(janela, str(nome_usuario[0]))
+            else:
+                tela_funcionario(janela)
+        else:
+            MessageBox.showinfo("Erro!", "Verifique sua senha!")
+
+# IMPLEMENTADA
+def tela_de_cliente(janela, nome_usuario):
+    
+    #global janela
+    janela.destroy()
+    janela = Tk()
+    janela.geometry("600x600+300+50")
+    janela.title("Tela de Cliente")
+    label = Label(janela, text='Tela de Cliente')
+    label.pack() 
+
+    seus_pedidos = Button(janela, text='Seus pedidos',command=lambda: tela_lista_pedidos_cliente(janela, nome_usuario))
+    seus_pedidos.place(x=250,y=150)
+    fazer_pedido_cliente = Button(janela, text='Fazer pedido',command=lambda: tela_de_fazer_pedido_cliente)
+    fazer_pedido_cliente.place(x=250,y=300)
+    voltar = Button(janela, text='Voltar',command=lambda: tela_login(janela))
+    voltar.place(x=250,y=500)
+
+    janela.mainloop()
+
+# # AINDA PRECISA SER FEITA
+# def tela_de_listar_pedidos_cliente(janela):
+    
+#     #global janela
+#     janela.destroy()
+#     janela = Tk()
+#     janela.geometry("600x600+300+50")
+#     global abcd
+#     abcd = "Tla de Pedidos"
+#     janela.title(str(abcd))
+#     label = Label(janela, text=str(abcd))
+#     label.pack() 
+#     vlist = ["Option1", "Option2", "Option3",
+#           "Option4", "Option5"]
+ 
+#     Combo = ttk.Combobox(janela, values = vlist)
+#     Combo.set("Pick an Option")
+#     Combo.pack(padx = 5, pady = 5)
+    
+#     pass
+
+# # SERÁ FEITA?
+# def tela_de_fazer_pedido_cliente(janela):
+#     # global janela
+#     janela.destroy()
+#     janela = Tk()
+#     janela.geometry("600x600+300+50")
+#     global nomeTela
+#     nomeTela = "Faça um pedido"
+#     janela.title(nomeTela)
+#     label = Label(janela, text=str(abcd))
+#     label.pack() 
+#     lista_roupas = ["Camisa", "Calça", "Cueca",
+#           "Shorts", "Sutiã", "Terno"]
+ 
+#     SelecionaRoupa = ttk.Combobox(janela, values = lista_roupas)
+#     SelecionaRoupa.set("Escolha o tipo de roupa que será cadastrado no pedido")
+#     SelecionaRoupa.pack(padx = 5, pady = 5)
+#     pass
+
+# Fim cliente
+################################
 # janela = Tk()
 
+# IMPLEMENTADA
 def tela_funcionario(janela):
     # global janela
     janela.destroy()
@@ -24,7 +164,7 @@ def tela_funcionario(janela):
     y_line = [y_base, y_base*2, y_base*3, y_base*4]
     fonte=('Arial', 18)
     
-    botao_cadastrar_cliente = Button(janela, text='Cadastrar Cliente', font = fonte, command=lambda:tela_criar_cadastro(janela))
+    botao_cadastrar_cliente = Button(janela, text='Cadastrar Cliente', font = fonte, command=lambda:tela_criar_cadastro(janela, 1))
     botao_cadastrar_cliente.place(x=x_column,y=y_line[0])
     
     botao_criar_pedido = Button(janela, text='Criar Pedido', font = fonte, command=lambda:tela_fazer_pedido(janela))
@@ -33,13 +173,16 @@ def tela_funcionario(janela):
     botao_consultar_pedido = Button(janela, text='Consultar Pedido', font = fonte, command=lambda:tela_consulta(janela))
     botao_consultar_pedido.place(x=x_column,y=y_line[2])
 
-    botao_atualizar_pedido = Button(janela, text='Atualizar Pedido', font = fonte, command=lambda:tela_consulta_atualiza(janela))
+    botao_atualizar_pedido = Button(janela, text='Atualizar Pedido', font = fonte, command=lambda:tela_atualiza(janela))
     botao_atualizar_pedido.place(x=x_column,y=y_line[3])
+    
+    voltar = Button(janela, text='Voltar',command=lambda: tela_login(janela))
+    voltar.place(x=250,y=500)
 
     janela.mainloop()
 
-    
-def tela_criar_cadastro(janela):
+# IMPLEMENTADA
+def tela_criar_cadastro(janela, valor):
     # global janela
     janela.destroy()
     janela = Tk() 
@@ -54,42 +197,42 @@ def tela_criar_cadastro(janela):
     
     email_text = Label(janela, text="Endereço de E-mail")
     email_text.place(x=left_column,y=y_base+30)
-    email_field = Entry(font=fonte)
+    email_field = Entry(janela, font=fonte)
     email_field.place(x=left_column,y=y_base+70)
 
     tel_text = Label(janela, text="Telefone")
     tel_text.place(x=left_column,y=y_base+110)
-    tel_field = Entry(font=fonte)
+    tel_field = Entry(janela, font=fonte)
     tel_field.place(x=left_column,y=y_base+150)
 
     cpf_text = Label(janela, text="CPF")
     cpf_text.place(x=left_column,y=y_base+190)
-    cpf_field = Entry(font=fonte)
+    cpf_field = Entry(janela, font=fonte)
     cpf_field.place(x=left_column,y=y_base+230)
 
     endereco_text = Label(janela, text="Endereço")
     endereco_text.place(x=left_column,y=y_base+270)
-    endereco_field = Entry(font=fonte)
+    endereco_field = Entry(janela, font=fonte)
     endereco_field.place(x=left_column,y=y_base+310)
 
     nome_text = Label(janela, text="Nome")
     nome_text.place(x=right_column,y=y_base+30)
-    nome_field = Entry(font=fonte)
+    nome_field = Entry(janela, font=fonte)
     nome_field.place(x=right_column,y=y_base+70)
 
     user_text = Label(janela, text="Nome de Usuario")
     user_text.place(x=right_column,y=y_base+110)
-    user_field = Entry(font=fonte)
+    user_field = Entry(janela, font=fonte)
     user_field.place(x=right_column,y=y_base+150)
 
     senha_text = Label(janela, text="Senha")
     senha_text.place(x=right_column,y=y_base+190)
-    senha_field = Entry(font=fonte)
+    senha_field = Entry(janela, font=fonte)
     senha_field.place(x=right_column,y=y_base+230)
 
     cfmsenha_text = Label(janela, text="Confirme sua senha")
     cfmsenha_text.place(x=right_column,y=y_base+270)
-    cfmsenha_field = Entry(font=fonte)
+    cfmsenha_field = Entry(janela, font=fonte)
     cfmsenha_field.place(x=right_column,y=y_base+310)
     
     dic_dados = {}
@@ -102,14 +245,20 @@ def tela_criar_cadastro(janela):
     dic_dados["senha"] = senha_field
     dic_dados["cfmsenha"] = cfmsenha_field
 
-    seus_pedidos = Button(janela, text='Criar!',command=lambda:verifica_dados_cadastrais(dic_dados))
-    seus_pedidos.place(x=275,y=500)
+    seus_pedidos = Button(janela, text='Criar!', font=("Arial", 16), command=lambda:verifica_dados_cadastrais(janela ,dic_dados, valor))
+    seus_pedidos.place(x=300,y=500)
+    if valor == 0:
+        voltar = Button(janela, text='Voltar', font=("Arial", 16), command=lambda: tela_login(janela))
+        voltar.place(x=200,y=500)
+    else:
+        voltar = Button(janela, text='Voltar', font=("Arial", 16), command=lambda: tela_funcionario(janela))
+        voltar.place(x=200,y=500)
 
 
     janela.mainloop()
 
-# NÃO NECESSITA MAIS DE ALTERAÇÃO
-def verifica_dados_cadastrais(dic_dados):
+# IMPLEMENTADA
+def verifica_dados_cadastrais(janela, dic_dados, valor):
     # for i in dic_dados:
     #     print(dic_dados[i].get())
     mensagem = ""
@@ -156,6 +305,10 @@ def verifica_dados_cadastrais(dic_dados):
         cursor.execute("insert into cliente values("+cpf+",'"+nome+"','"+endereco+"',"+tel+",'"+email+"','"+user+"','"+senha+"');")
         cursor.execute("commit")
         MessageBox.showinfo("Criação de Usuário Realizada!", "Usuário "+user+" foi criado com sucesso!")
+        if valor == 1:
+            tela_funcionario(janela)
+        else:
+            tela_login(janela)
 
 
 def tela_consulta(janela):
@@ -181,6 +334,9 @@ def tela_consulta(janela):
     e_insira_senha.place(x=60, y=170, width=200, height=25)
     botao_consulta_id = Button(janela, text='Consultar', height= 1, width=10,command=lambda:tela_lista_pedido_id(janela, e_insira_senha.get()))
     botao_consulta_id.place(x=260,y=170)
+    
+    voltar = Button(janela, text='Voltar',command=lambda: tela_funcionario(janela))
+    voltar.place(x=250,y=500)
 
     janela.mainloop()
 
@@ -367,7 +523,7 @@ def tela_lista_pedido_id(janela, pedido_id):
     #     yi += 30   
     janela.mainloop()
 
-
+# IMPLEMENTADA
 def tela_fazer_pedido(janela):
     # global janela
     janela.destroy()
@@ -376,32 +532,37 @@ def tela_fazer_pedido(janela):
     label.pack()
     janela.geometry("600x600+300+50")
     fonte=('Arial', 18)
+    xi = 200
+
     cpf_text = Label(janela, text="CPF")
-    cpf_text.place(x=50,y=190)
+    cpf_text.place(x=xi,y=100)
     cpf_field = Entry(font=fonte)
-    cpf_field.place(x=50,y=230)
+    cpf_field.place(x=xi,y=150)
     
 
     peca_opt = ["Camiseta", "Camisa", "Calca", "Bermuda", "Shorts", "Cueca", "Calcinha", "Meia", "Moletom", "Luvas", "Gorro"]
     peca = ttk.Combobox(janela, values = peca_opt, state='readonly')
     peca.set("Selecione o Item")
-    peca.place(x = 250, y = 300)
+    peca.place(x = xi, y = 200)
 
     lavagem_opt = ["lavagem normal","lavagem a seco", "lavagem sem lavar", "hidratacao", "so no paninho"]
     lavagem = ttk.Combobox(janela, values = lavagem_opt, state='readonly')
     lavagem.set("Selecione a Lavagem")
-    lavagem.place(x = 250, y = 350)
-    fonte=('Arial', 18)
+    lavagem.place(x = xi, y = 250)
+    #fonte=('Arial', 18)
     
     matriz_itens = []
     botao_adiconar_id = Button(janela, text='Adicionar Item', height= 1, font = fonte, command=lambda :adiciona_item(peca, lavagem, matriz_itens))
-    botao_adiconar_id.place(x=250,y=400)
+    botao_adiconar_id.place(x=xi,y=400)
     
     botao_fazer_pedido = Button(janela, text='Criar Pedido', height= 1, font = fonte, command=lambda:cria_pedido(cpf_field, matriz_itens))
-    botao_fazer_pedido.place(x=250,y=450)
+    botao_fazer_pedido.place(x=xi,y=450)
+
+    voltar = Button(janela, text='Voltar',command=lambda: tela_funcionario(janela))
+    voltar.place(x=xi-100,y=500)
     
     janela.mainloop()
-
+# IMPLEMENTADA
 def adiciona_item(peca, lavagem, matriz):
     # Captura campos
     nome_item = peca.get()
@@ -423,9 +584,7 @@ def adiciona_item(peca, lavagem, matriz):
 
     matriz.append([id_item, id_lavagem, "em processo"])
     print(matriz)
-    
-    
-	 
+# IMPLEMENTADA
 def cria_pedido(cpf, matriz_itens):
     # verifica se o cpf esta no bd
     cursor = con.cursor()
@@ -459,11 +618,11 @@ def cria_pedido(cpf, matriz_itens):
 
     
 
-def tela_consulta_atualiza(janela):
+def tela_atualiza(janela):
     # global janela
     janela.destroy()
     janela = Tk() 
-    label = Label(janela, text='Consulta')
+    label = Label(janela, text='Atualizar')
     label.pack()
     janela.geometry("600x600+300+50")
 
@@ -482,6 +641,9 @@ def tela_consulta_atualiza(janela):
     e_insira_senha.place(x=60, y=170, width=200, height=25)
     botao_consulta_id = Button(janela, text='Consultar', height= 1, width=10,command=lambda:tela_lista_pedido_id_atualiza(janela, e_insira_senha.get()))
     botao_consulta_id.place(x=260,y=170)
+
+    voltar = Button(janela, text='Voltar',command=lambda: tela_funcionario(janela))
+    voltar.place(x=250,y=500)
 
     janela.mainloop()
 
@@ -553,7 +715,7 @@ def tela_lista_pedido_id_atualiza(janela, pedido_id):
     janela.destroy()
     janela = Tk() 
     janela.geometry("600x600+300+50")
-    label = Label(janela, text="Informações do pedido "+str(pedido_id))
+    label = Label(janela, text="Informações do pedido "+str(pedido_id), font = ("Arial", 15))
     label.place(x = 200, y = 50)
     
     cursor = con.cursor()
@@ -561,7 +723,7 @@ def tela_lista_pedido_id_atualiza(janela, pedido_id):
     pedido_infs = cursor.fetchall()[0]
     
     lavagem_opt = ["lavando","secando", "pronto", "concluido"]
-    lavagem = ttk.Combobox(janela, values = lavagem_opt)
+    lavagem = ttk.Combobox(janela, values = lavagem_opt, font = ("Arial", 15))
     lavagem.set("Selecione o estado")
     lavagem.place(x = 250, y = 350)
     fonte=('Arial', 18)
@@ -582,9 +744,10 @@ def atualiza_estado_pedido(pedido_inf, novo_estado):
     cursor.execute("UPDATE Pedido SET estado = "+"\""+ novo_estado+"\""+" WHERE ID_pedido="+str(pedido_inf[0])+";")
     cursor.execute("commit")
     return 
-    
-def fechar_janela(janela)
+
+def fechar_janela(janela):
     janela.destroy()
 
-def acessa_tela_correspondente(janela):
-    pass
+
+janela = Tk() 
+tela_login(janela)
