@@ -29,6 +29,11 @@ create table item (
 	estado varchar(15),
 	primary key (ID_item, Id_pedido));
 
+create table roupas (
+	ID_item int(3),
+	peca_nome varchar(30),
+	primary key (ID_item, peca_nome));
+
 create table pedido (
 	ID_pedido int(5),
 	CPF int(11),

@@ -265,22 +265,79 @@ def tela_lista_pedido_id(janela, pedido_infs):
     janela.destroy()
     janela = Tk() 
     janela.geometry("600x600+300+50")
-    label = Label(janela, text=pedido_infs[0])
+    label = Label(janela, text="Informações do pedido "+str(pedido_infs[0]))
     label.place(x = 200, y = 50)
+
+    CPF = pedido_infs[1]
+
+    cursor = con.cursor()
+    cursor.execute("select nome from Cliente where CPF="+str(CPF)+";")
+    nome_cliente = cursor.fetchall()[0][0]
+    print("nome_cliente = ", nome_cliente)
+
+    cursor.execute("select ID_item from item where ID_pedido="+str(pedido_infs[0]))
+    itens = cursor.fetchall()
+    print("itens = ",itens)
 
     xi = 150
     yi = 100
 
     base = ["Cliente", "Data do Pedido", "Data para Entrega", "Estado", "Itens"]
     
-    for i in range(len(pedido_infs)): 
-        aux_b = str(base[i])
-        aux_d = str(pedido_infs[i+1])
-        auxlb = Label (janela, text = aux_b, font=("bold", 13))
-        auxld = Label (janela, text = aux_d, font=("Arial", 13))
-        auxlb.place(x = xi, y = yi)       
+    # i = 0
+
+    # aux_b = str(base[i])
+    # aux_d = str(pedido_infs[i+1])
+    # auxlb = Label (janela, text = aux_b, font=("bold", 13))
+    # auxld = Label (janela, text = aux_d, font=("Arial", 13))
+    # auxlb.place(x = xi, y = yi)       
+    # auxld.place(x = xi + 150, y = yi)
+    # yi += 30   
+
+    i = 0
+
+    aux_b = str(base[i])
+    aux_d = str(pedido_infs[i+1])
+    auxlb = Label (janela, text = "Cliente", font=("bold", 13))
+    auxld = Label (janela, text = nome_cliente, font=("Arial", 13))
+    auxlb.place(x = xi, y = yi)       
+    auxld.place(x = xi + 150, y = yi)
+    yi += 30   
+
+    auxlb = Label (janela, text = "Data do Pedido", font=("bold", 13))
+    auxld = Label (janela, text = nome_cliente, font=("Arial", 13))
+    auxlb.place(x = xi, y = yi)       
+    auxld.place(x = xi + 150, y = yi)
+    yi += 30  
+
+    auxlb = Label (janela, text = "Data para Entrega", font=("bold", 13))
+    auxld = Label (janela, text = nome_cliente, font=("Arial", 13))
+    auxlb.place(x = xi, y = yi)       
+    auxld.place(x = xi + 150, y = yi)
+    yi += 30  
+
+    auxlb = Label (janela, text = "Estado", font=("bold", 13))
+    auxld = Label (janela, text = nome_cliente, font=("Arial", 13))
+    auxlb.place(x = xi, y = yi)       
+    auxld.place(x = xi + 150, y = yi)
+    yi += 30  
+
+    auxlb = Label (janela, text = "Itens:", font=("bold", 13))
+
+    for item in itens:
+        auxld = Label (janela, text = item, font=("Arial", 13))
         auxld.place(x = xi + 150, y = yi)
-        yi += 30   
+        yi += 30  
+
+
+    # for i in range(len(pedido_infs)): 
+    #     aux_b = str(base[i])
+    #     aux_d = str(pedido_infs[i+1])
+    #     auxlb = Label (janela, text = aux_b, font=("bold", 13))
+    #     auxld = Label (janela, text = aux_d, font=("Arial", 13))
+    #     auxlb.place(x = xi, y = yi)       
+    #     auxld.place(x = xi + 150, y = yi)
+    #     yi += 30   
     janela.mainloop()
 
 
