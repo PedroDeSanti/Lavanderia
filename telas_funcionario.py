@@ -3,6 +3,8 @@ from tkinter import ttk
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 
+from telas_cliente import *
+
 con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
 
 # janela = Tk()
@@ -104,11 +106,10 @@ def tela_criar_cadastro(janela):
 
     janela.mainloop()
 
-    #teste = Button(janela, text='AQUI',command=)
-
+# NÃO NECESSITA MAIS DE ALTERAÇÃO
 def verifica_dados_cadastrais(dic_dados):
-    for i in dic_dados:
-        print(dic_dados[i].get())
+    # for i in dic_dados:
+    #     print(dic_dados[i].get())
     mensagem = ""
     
     email = str(dic_dados["email"].get())
@@ -119,8 +120,6 @@ def verifica_dados_cadastrais(dic_dados):
     user = str(dic_dados["user"].get())
     senha = str(dic_dados["senha"].get())
     cfmsenha = str(dic_dados["cfmsenha"].get())
-    
-    # print(email,cpf,nome)
 
     # verifica o email
     if (len(email.split("@")) != 2) or email == "":
@@ -154,21 +153,7 @@ def verifica_dados_cadastrais(dic_dados):
         cursor = con.cursor()
         cursor.execute("insert into cliente values("+cpf+",'"+nome+"','"+endereco+"',"+tel+",'"+email+"','"+user+"','"+senha+"');")
         cursor.execute("commit")
-    
-    for i in dic_dados:
-        print(dic_dados[i].delete(0, 'end'))
-
-
-
-# def volta_tela_funcionario(janela, remetente):
-#     if remetente = 1
-#         tela_funcionario(janela)
-    
-        
-    
-def acessa_tela_correspondente():
-    "Leva o usuário à tela de cliente ou funcionário (a depender do login e senha)"
-    pass
+        MessageBox.showinfo("Criação de Usuário Realizada!", "Usuário "+user+" foi criado com sucesso!")
 
 
 def tela_consulta(janela):
@@ -204,10 +189,10 @@ def tela_lista_pedidos_cliente(janela, nome_usuario):
     cursor = con.cursor()
     cursor.execute("select CPF from Cliente where nome="+nome_usuario+";")
     CPF = cursor.fetchall()[0][0]
-    print(CPF)
+    # print(CPF)
     cursor.execute("select * from pedido where CPF="+str(CPF))
     rows = cursor.fetchall()
-    print(rows)
+    # print(rows)
     
     for row in rows:
         lista_pedidos.append(row)
@@ -257,6 +242,7 @@ def tela_lista_pedidos_cliente(janela, nome_usuario):
         botao_consulta = Button(frame, text='Consultar', font=('bold',10), command=lambda:tela_lista_pedido_id(janela, pedido))
         botao_consulta.pack(side=LEFT)
         frame.pack()
+        i += 1
         
     janela.mainloop()
 
@@ -274,8 +260,10 @@ def tela_lista_pedido_id(janela, pedido_infs):
     cursor.execute("select nome from Cliente where CPF="+str(CPF)+";")
     nome_cliente = cursor.fetchall()[0][0]
     print("nome_cliente = ", nome_cliente)
-
-    cursor.execute("select ID_item from item where ID_pedido="+str(pedido_infs[0]))
+                    
+    # cursor.execute("select ID_item from item where ID_pedido="+str(pedido_infs[0])+";")
+    print(pedido_infs[0])
+    cursor.execute("select ID_item from item where ID_pedido=10485;")
     itens = cursor.fetchall()
     print("itens = ",itens)
 
@@ -305,11 +293,13 @@ def tela_lista_pedido_id(janela, pedido_infs):
     yi += 30   
 
     auxlb = Label (janela, text = "Data do Pedido", font=("bold", 13))
-    auxld = Label (janela, text = nome_cliente, font=("Arial", 13))
+    auxld = Label (janela, text = pedido_infs[2], font=("Arial", 13))
     auxlb.place(x = xi, y = yi)       
     auxld.place(x = xi + 150, y = yi)
     yi += 30  
 
+    # cursor.execute("select ID_item from item where ID_pedido="+str(pedido_infs[0]))
+    # itens = cursor.fetchall()
     auxlb = Label (janela, text = "Data para Entrega", font=("bold", 13))
     auxld = Label (janela, text = nome_cliente, font=("Arial", 13))
     auxlb.place(x = xi, y = yi)       
@@ -317,12 +307,13 @@ def tela_lista_pedido_id(janela, pedido_infs):
     yi += 30  
 
     auxlb = Label (janela, text = "Estado", font=("bold", 13))
-    auxld = Label (janela, text = nome_cliente, font=("Arial", 13))
+    auxld = Label (janela, text = pedido_infs[3], font=("Arial", 13))
     auxlb.place(x = xi, y = yi)       
     auxld.place(x = xi + 150, y = yi)
     yi += 30  
 
     auxlb = Label (janela, text = "Itens:", font=("bold", 13))
+    auxlb.place(x = xi, y = yi)     
 
     for item in itens:
         auxld = Label (janela, text = item, font=("Arial", 13))
@@ -368,3 +359,8 @@ def tela_fazer_pedido(janela):
     botao_fazer_pedido.place(x=250,y=450)
     
     janela.mainloop()
+
+
+
+def acessa_tela_correspondente(janela):
+    pass

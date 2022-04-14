@@ -1,10 +1,10 @@
 create table Administra (
 	ID_Pedido int(5),
-	CPF int(11),
+	CPF bigint(11),
 	primary key (ID_Pedido, CPF));
 	 
 create table Cliente (
-	CPF int(11) primary key,
+	CPF bigint(11) primary key,
 	nome varchar(30),
 	endereco varchar(40),
 	telefone int(11),
@@ -13,7 +13,7 @@ create table Cliente (
 	senha varchar(20));
 	  
 create table Funcionario (
-	CPF int(11) primary key,
+	CPF bigint(11) primary key,
 	nome varchar(30),
 	endereco varchar(40),
 	telefone int(11),
@@ -26,8 +26,7 @@ create table item (
 	ID_item int(3),
 	ID_pedido int(5),
 	ID_tipoLavagem int(3),
-	estado varchar(15),
-	primary key (ID_item, Id_pedido));
+	estado varchar(15));
 
 create table roupas (
 	ID_item int(3),
@@ -36,7 +35,7 @@ create table roupas (
 
 create table pedido (
 	ID_pedido int(5),
-	CPF int(11),
+	CPF bigint(11),
 	dataPedido date,
 	estado varchar(15),
 	primary key (ID_pedido, CPF));

@@ -3,10 +3,13 @@ from tkinter import ttk
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 
+
+
 con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
 
 # janela = Tk() 
 
+# AINDA PRECISA SER FEITA
 def tela_de_cliente(janela):
     
     #global janela
@@ -24,6 +27,7 @@ def tela_de_cliente(janela):
 
     janela.mainloop()
 
+# AINDA PRECISA SER FEITA
 def tela_de_listar_pedidos_cliente(janela):
     
     #global janela
@@ -44,6 +48,7 @@ def tela_de_listar_pedidos_cliente(janela):
     
     pass
 
+# SERÁ FEITA?
 def tela_de_fazer_pedido_cliente(janela):
     # global janela
     janela.destroy()

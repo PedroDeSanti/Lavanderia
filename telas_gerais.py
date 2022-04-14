@@ -8,7 +8,7 @@ from telas_funcionario import *
 
 con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
 
-
+# ÚNICA ALTERAÇÃO QUE FALTA É APAGAR OS BOTÕES DE TEIXTE
 def tela_login():
 
     global janela
@@ -57,7 +57,7 @@ def tela_login():
 
 
 
-
+# NÃO NECESSITA MAIS DE ALTERAÇÃO
 def acessa_tela_correspondente(login, senha, janela):
     '''Verifica se o login e senha se encontram no BD, e, se sim, leva o usuário à correspondente (cliente ou funcionário)'''
     # verifica se o login se encontra no BD
