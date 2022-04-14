@@ -183,7 +183,7 @@ insert into roupas
 values
     (1, 'Camiseta'),
     (2, 'Camisa'),
-    (3, 'Calça'),
+    (3, 'Calca'),
     (4, 'Bermuda'),
     (5, 'Shorts'),
     (6, 'Cueca'),
@@ -228,5 +228,5 @@ values
 	(1, 'lavagem normal', 6.00, 1),
 	(2, 'lavagem a seco', 10.00, 2),
     (3, 'lavagem sem lavar', 999.99, 15),
-    (4, 'hidratação', 1.00, 3),
-    (5, 'só no paninho', 123.94, 83);
+    (4, 'hidratacao', 1.00, 3),
+    (5, 'so no paninho', 123.94, 83);

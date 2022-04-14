@@ -10,7 +10,7 @@ def insert():
         
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
-        con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
+        con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
         cursor = con.cursor()
         cursor.execute("insert into student values("+id+",'"+name+"',"+phone+")")
         cursor.execute("commit")
@@ -30,7 +30,7 @@ def delete():
     if (id==''):
         MessageBox.showinfo("Delete Status", "ID is compulsory for delete")
     else:
-        con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
+        con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
         cursor = con.cursor()
         cursor.execute("delete from student where id = "+id)
         cursor.execute("commit")
@@ -50,7 +50,7 @@ def update():
     if (id=='' or name=='' or phone==''):
         MessageBox.showinfo("Update Status", "All Fields are required")
     else:
-        con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
+        con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
         cursor = con.cursor()
         cursor.execute("update student set name='"+name+"', phone="+phone+" where id=" +id)
         cursor.execute("commit")
@@ -69,7 +69,7 @@ def get():
     if (id==''):
         MessageBox.showinfo("Fetch Status", "ID is compulsory for fetch")
     else:
-        con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
+        con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
         cursor = con.cursor()
         cursor.execute("select * from student where id="+id)
         rows = cursor.fetchall()
@@ -81,7 +81,7 @@ def get():
 
 
 def show():
-    con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
+    con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
     cursor = con.cursor()
     cursor.execute("select * from student")
     rows = cursor.fetchall()

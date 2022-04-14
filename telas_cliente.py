@@ -5,7 +5,7 @@ import mysql.connector as mysql
 
 
 
-con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
+con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
 
 # janela = Tk() 
 

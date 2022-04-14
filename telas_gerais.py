@@ -6,7 +6,7 @@ import mysql.connector as mysql
 from telas_cliente import *
 from telas_funcionario import *
 
-con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
+con = mysql.connect(host="localhost", user='root', password='Pontofrio-1', database='projetobd')
 
 # ÚNICA ALTERAÇÃO QUE FALTA É APAGAR OS BOTÕES DE TEIXTE
 def tela_login():
