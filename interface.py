@@ -1,9 +1,13 @@
+# interface morreu!
+
 from tkinter import *
 from tkinter import ttk
+import tkinter.messagebox as MessageBox
 
 janela = Tk() 
 
-abcd = '0'
+
+
 def criar_usuario():
     global janela
     janela.destroy()
@@ -35,9 +39,8 @@ def tela_de_cliente():
     label.pack() 
 
     seus_pedidos = Button(janela, text='Seus pedidos',command=tela_de_listar_pedidos_cliente)
-    fazer_pedido_cliente = Button(janela, text='Fazer pedido',command=tela_de_fazer_pedido_cliente)
-
     seus_pedidos.place(x=100,y=150)
+    fazer_pedido_cliente = Button(janela, text='Fazer pedido',command=tela_de_fazer_pedido_cliente)
     fazer_pedido_cliente.place(x=180,y=300)
 
     janela.mainloop()
@@ -63,6 +66,21 @@ def tela_de_listar_pedidos_cliente():
     pass
 
 def tela_de_fazer_pedido_cliente():
+    global janela
+    janela.destroy()
+    janela = Tk()
+    janela.geometry("600x600+300+50")
+    global nomeTela
+    nomeTela = "Faça um pedido"
+    janela.title(nomeTela)
+    label = Label(janela, text=str(abcd))
+    label.pack() 
+    lista_roupas = ["Camisa", "Calça", "Cueca",
+          "Shorts", "Sutiã", "Terno"]
+ 
+    SelecionaRoupa = ttk.Combobox(janela, values = lista_roupas)
+    SelecionaRoupa.set("Escolha o tipo de roupa que será cadastrado no pedido")
+    SelecionaRoupa.pack(padx = 5, pady = 5)
     pass
 
 def tela_login():
@@ -71,8 +89,8 @@ def tela_login():
     janela.destroy()
     janela = Tk()
     janela.geometry("600x600+300+50")
-    janela.title("Menu Principal")
-    label = Label(janela, text='Menu Principal')
+    janela.title("Tela de Login")
+    label = Label(janela, text='Tela de Login')
     label.pack() 
 
 
@@ -99,6 +117,9 @@ def tela_login():
     
     teixte2 = Button(janela, text='TEIXTE2',command=tela_de_listar_pedidos_cliente)
     teixte2.place(x=150, y=550)
+    
+    teixte3 = Button(janela, text='TEIXTE3',command=tela_de_fazer_pedido_cliente)
+    teixte2.place(x=50, y=550)
 
     botao_acessar.place(x=100,y=150)
     botao_criar_cadastro.place(x=180,y=300)
@@ -159,9 +180,48 @@ def tela_criar_cadastro():
     cfmsenha_field = Entry(font=fonte)
     cfmsenha_field.place(x=right_column,y=y_base+310)
     
+    dic_dados = {}
+    dic_dados["email": email_field.get(), "tel": tel_field.get(), "cpf": cpf_field.get(), "endereco":endereco_field.get()]
+    dic_dados["nome": nome_field.get(), "user":user_field.get(), "senha":senha_field.get(), "cfmsenha":cfmsenha_field.get()]
+
+    seus_pedidos = Button(janela, text='Criar!',command=verifica_dados(dic_dados))
+    seus_pedidos.place(x=275,y=500)
+
+
     janela.mainloop()
 
     #teste = Button(janela, text='AQUI',command=)
+
+def verifica_dados(dic_dados):
+    mensagem = ""
+
+    if len(str(dic_dados["email"]).split("@")) != 2:
+        mensagem += "Verifique seu email!\n"
+    if len(str(dic_dados["tel"])) > 11:
+        mensagem += "Telefone grande demais!\n"
+    if len(str(dic_dados["cpf"])) > 11:
+        mensagem += "CPF grande demais!\n"
+    if type(dic_dados["cpf"]) != int:
+        mensagem += "CPF digitado incorretamente!\n"
+    if len(str(dic_dados["endereco"])) > 30:
+        mensagem += "Endereço grande demais!\n"
+    for char in str(dic_dados["nome"]):
+        if char.upper not in 'abcdefghijklmnopqrstuvwxyz ':
+            mensagem += "Nome com caracteres esquisitos!\n"
+            break
+    
+    if len(str(dic_dados["user"])) > 20:
+        mensagem += "Usuário grande demais!\n"
+    if len(str(dic_dados["senha"])) > 20:
+        mensagem += "Senha grande demais!\n"
+    if dic_dados["senha"] != dic_dados["cfmsenha"]:
+        mensagem += "Senhas não batem!\n"
+    if mensagem != "":
+        MessageBox.showinfo("Erros!", mensagem)
+        
+    
+
+
 
 def acessa_tela_correspondente():
     "Leva o usuário à tela de cliente ou funcionário (a depender do login e senha)"

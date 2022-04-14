@@ -7,6 +7,7 @@ def insert():
     name = e_name.get()
     phone = e_phone.get()
     if (id=='' or name=='' or phone==''):
+        
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user='root', password='MySQLP@55W0rd', database='projetobd')
